@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>JSON Flickr with JQuery</title>
+  <style>
+    img {
+      height: 100px;
+      float: left;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<body>
+
+
+  <div id="images"></div>
+
+
+
+  <script>
+    
+    (function() {
+      var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+      
+      $.getJSON(flickerAPI, {
+
+          tagmode: "any",
+          format: "json"
+        })
+        .done(function(data) {
+
+
+            $.each(data.items, function(i, item) {
+				var $append="";
+                $append += "<tr><td>";
+				$append += "<img src=\"" + item.media.m + "\"/>";
+				$append += "</td></tr><tr><td><a href=\"" + item.link + "\">" + item.title + "</a> ";
+				$append += " by <a href=\"" + "https://www.flickr.com/people/" + item.author_id + "\">" + item.author + "</a></td></tr>";
+				$append += "<tr><td>Tags : " + item.tags + "</td></tr>";
+				$append += "<tr><td><hr></hr></td></tr>";
+				$('#images').append($append);
+
+              }
+
+            );
+          }
+
+        );
+    })();
+    
+  </script>
+
+</body>
+
+</html>
